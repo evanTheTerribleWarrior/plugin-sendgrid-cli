@@ -1,13 +1,15 @@
 {
-  "name": "@twilio/plugin-debugger",
-  "description": "explore debug events generated during your Twilio use",
+  "name": "@twilio/plugin-sendgrid-cli",
+  "description": "explore and use the SendGrid API from the command line",
   "version": "1.1.9",
   "author": "Twilio @twilio",
   "bugs": "https://github.com/twilio/twilio-cli/issues",
   "dependencies": {
     "@oclif/command": "^1.5.20",
     "@oclif/config": "^1.15.1",
-    "@twilio/cli-core": "^5.0.0"
+    "@sendgrid/client": "^7.7.0",
+    "@twilio/cli-core": "^5.0.0",
+    "dotenv": "^16.3.1"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
@@ -27,13 +29,13 @@
     "/oclif.manifest.json",
     "/src"
   ],
-  "homepage": "https://github.com/twilio/plugin-debugger",
+  "homepage": "https://github.com/evanTheTerribleWarrior/plugin-sendgrid-cli",
   "keywords": [
     "oclif-plugin"
   ],
   "license": "MIT",
   "oclif": {
-    "name": "debugger",
+    "name": "sendgrid-cli",
     "commands": "./src/commands",
     "bin": "twilio",
     "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
@@ -41,8 +43,8 @@
       "@oclif/plugin-help"
     ],
     "topics": {
-      "debugger": {
-        "description": "explore debug events generated during your Twilio use"
+      "sendgrid": {
+        "description": "explore the SendGrid API"
       }
     }
   },
