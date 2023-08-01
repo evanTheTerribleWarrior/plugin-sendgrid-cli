@@ -1,0 +1,2 @@
+- limit flag is integer, not string
+- test auth domains on subusers

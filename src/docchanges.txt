@@ -1,0 +1,5 @@
+https://docs.sendgrid.com/api-reference/domain-authentication/list-all-authenticated-domains
+No example with Query strings
+
+https://docs.sendgrid.com/api-reference/domain-authentication/disassociate-a-authenticated-domain-from-a-given-user
+username is required
