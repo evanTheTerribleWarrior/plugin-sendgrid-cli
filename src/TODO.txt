@@ -4,3 +4,7 @@
 
 Domains:
 Add IP ---> throws 400
+
+Subusers:
+Reputation seems to be a string for "usernames", how to put multiple?
+Why when creating a subuser, assigning IPs is required?
