@@ -5,7 +5,8 @@ const API_PATHS = {
     DOMAINS: '/v3/whitelabel/domains',
     IPS: '/v3/whitelabel/ips',
     LINKS: '/v3/whitelabel/links',
-    SUBUSERS: '/v3/subusers'
+    SUBUSERS: '/v3/subusers',
+    IP_ACCESS_MANAGEMENT: '/v3/access_settings'
 }
 
 module.exports = API_PATHS
