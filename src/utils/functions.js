@@ -1,3 +1,5 @@
+const { flags } = require('@oclif/command');
+
 const extractFlags = (flagsObject) => {
 
     const data = {};
@@ -31,6 +33,23 @@ const extractFlags = (flagsObject) => {
     
   }
 
+  const getArrayFlag = (description, required) => {
+    return flags.string({
+      description: description,
+      required: required,
+      parse: (input) => input.split(',').map(item => item.trim()),
+      validate: (input) => {
+        const uniqueItems = new Set(input);
+        if (uniqueItems.size !== input.length) {
+          return 'The items in the array must be unique.';
+        }
+        return true;
+      },
+    });
+  }
 
   
-  module.exports = extractFlags
+  module.exports = {
+    extractFlags,
+    getArrayFlag
+  }

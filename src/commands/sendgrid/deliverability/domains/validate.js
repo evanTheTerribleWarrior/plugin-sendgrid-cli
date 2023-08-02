@@ -2,25 +2,25 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../utils/paths');
-const extractFlags = require('../../../../utils/functions');
+const {extractFlags} = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class DomainDelete extends BaseCommand {
+class DomainValidate extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.deleteDomain()
+      const result = await this.validateDomain()
       this.output(result)
     }
 
-    async deleteDomain() {
+    async validateDomain() {
 
         const { headers, ...data } = extractFlags(this.flags);
         
         const request = {
-            url: `${API_PATHS.DOMAINS}/${data.id}`,
-            method: 'DELETE',
+            url: `${API_PATHS.DOMAINS}/${data.id}/validate`,
+            method: 'POST',
             headers: headers
         }
 
@@ -33,11 +33,11 @@ class DomainDelete extends BaseCommand {
     }
 }
 
-DomainDelete.description = 'Delete an authenticated domain'
-DomainDelete.flags = Object.assign(
+DomainValidate.description = 'Validate an authenticated domain'
+DomainValidate.flags = Object.assign(
   {
     'id': flags.string({description: 'The ID of the authenticated domain', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = DomainDelete;
+module.exports = DomainValidate;

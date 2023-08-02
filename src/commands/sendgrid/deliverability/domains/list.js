@@ -2,25 +2,26 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../utils/paths');
-const extractFlags = require('../../../../utils/functions');
+const { extractFlags } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class DomainValidate extends BaseCommand {
+class DomainsList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.validateDomain()
+      const result = await this.listDomains()
       this.output(result)
     }
 
-    async validateDomain() {
+    async listDomains() {
 
         const { headers, ...data } = extractFlags(this.flags);
         
         const request = {
-            url: `${API_PATHS.DOMAINS}/${data.id}/validate`,
-            method: 'POST',
+            url: `${API_PATHS.DOMAINS}`,
+            method: 'GET',
+            qs: data,
             headers: headers
         }
 
@@ -33,11 +34,15 @@ class DomainValidate extends BaseCommand {
     }
 }
 
-DomainValidate.description = 'Validate an authenticated domain'
-DomainValidate.flags = Object.assign(
+DomainsList.description = 'List authenticated domains'
+DomainsList.flags = Object.assign(
   {
-    'id': flags.string({description: 'The ID of the authenticated domain', required: true}),
+    'limit': flags.string({description: 'Number of domains to return', required: false}),
+    'offset': flags.string({description: 'Paging offset from results', required: false}),
+    'exclude-subusers': flags.boolean({description: 'Exclude subuser domains from the result', default: false}),
+    'username': flags.string({description: 'The username associated with an authenticated domain', required: false}),
+    'domain': flags.string({description: 'Search for authenticated domains', required: false}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = DomainValidate;
+module.exports = DomainsList;

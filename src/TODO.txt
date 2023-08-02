@@ -1,2 +1,6 @@
 - limit flag is integer, not string
 - test auth domains on subusers
+- design APIs don't have on behalf of
+
+Domains:
+Add IP ---> throws 400

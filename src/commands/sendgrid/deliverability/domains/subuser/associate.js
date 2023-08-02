@@ -2,26 +2,27 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../../utils/paths');
-const extractFlags = require('../../../../../utils/functions');
+const {extractFlags} = require('../../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class DomainSubuserFetch extends BaseCommand {
+class DomainSubuserAssociate extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchSubuserDomain()
+      const result = await this.associateSubuserDomain()
       this.output(result)
     }
 
-    async fetchSubuserDomain() {
+    async associateSubuserDomain() {
 
         const { headers, ...data } = extractFlags(this.flags);
+        const {id, ...dataWithoutId} = data;
         
         const request = {
-            url: `${API_PATHS.DOMAINS}/subuser`,
-            method: 'GET',
-            qs: data,
+            url: `${API_PATHS.DOMAINS}/${id}/subuser`,
+            method: 'POST',
+            body: dataWithoutId,
             headers: headers
         }
 
@@ -34,11 +35,12 @@ class DomainSubuserFetch extends BaseCommand {
     }
 }
 
-DomainSubuserFetch.description = 'Fetch a subuser authenticated domain'
-DomainSubuserFetch.flags = Object.assign(
+DomainSubuserAssociate.description = 'Associate a specific authenticated domain with a subuser'
+DomainSubuserAssociate.flags = Object.assign(
   {
-    'username': flags.string({description: 'Username for the subuser to find associated authenticated domain', required: true}),
+    'username': flags.string({description: 'Username to associate with the authenticated domain.', required: true}),
+    'id': flags.string({description: 'ID of the authenticated domain to associate with the subuser', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = DomainSubuserFetch;
+module.exports = DomainSubuserAssociate;

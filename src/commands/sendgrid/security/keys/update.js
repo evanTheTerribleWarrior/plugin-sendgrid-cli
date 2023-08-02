@@ -3,7 +3,7 @@ const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const { scopes } = require('../../../../utils/common-flags')
 const API_PATHS = require('../../../../utils/paths');
-const extractFlags = require('../../../../utils/functions');
+const {extractFlags} = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
