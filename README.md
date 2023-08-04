@@ -10,3 +10,6 @@ This repo is work in progress. It will keep being updated until pretty much all 
 Reference of the API is [here](https://docs.sendgrid.com/api-reference)
 
 Also if you clone it and want to test with the Twilio CLI locally, the instructions are [here](https://github.com/twilio/twilio-cli/blob/main/docs/plugins.md)
+
+To be able to run this locally, also you need to add your SG Key
+`cp .env.example .env`
