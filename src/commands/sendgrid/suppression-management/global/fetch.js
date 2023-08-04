@@ -2,26 +2,26 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../utils/paths');
-const { extractFlags } = require('../../../../utils/functions');
+const { extractFlags, getArrayFlag } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SuppressionGroupDelete extends BaseCommand {
+class SuppressionGlobalFetch extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.deleteSuppressionGroup()
+      const result = await this.fetchSuppressionGlobal()
       this.output(result)
     }
 
-    async deleteSuppressionGroup() {
+    async fetchSuppressionGlobal() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { id } = data
+        const { email } = data;
 
         const request = {
-            url: `${API_PATHS.SUPPRESSION_GROUPS}/${id}`,
-            method: 'DELETE',
+            url: `${API_PATHS.SUPPRESION}/global/${email}`,
+            method: 'GET',
             headers: headers
         }
 
@@ -34,11 +34,11 @@ class SuppressionGroupDelete extends BaseCommand {
     }
 }
 
-SuppressionGroupDelete.description = 'Delete a Suppression Group'
-SuppressionGroupDelete.flags = Object.assign(
+SuppressionGlobalFetch.description = 'Retrieve a global suppression. You can also use this endpoint to confirm if an email address is already globally suppresed'
+SuppressionGlobalFetch.flags = Object.assign(
   { 
-    'id': flags.string({description: 'The ID of the suppression group you would like to delete', required: true}),
+    'email': flags.string({description: 'The email address of the global suppression you want to retrieve', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SuppressionGroupDelete;
+module.exports = SuppressionGlobalFetch;

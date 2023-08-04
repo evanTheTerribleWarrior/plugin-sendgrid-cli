@@ -2,26 +2,26 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../utils/paths');
-const { extractFlags } = require('../../../../utils/functions');
+const { extractFlags, getArrayFlag } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SuppressionGroupDelete extends BaseCommand {
+class SuppressionGlobalAdd extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.deleteSuppressionGroup()
+      const result = await this.addSuppressionGlobal()
       this.output(result)
     }
 
-    async deleteSuppressionGroup() {
+    async addSuppressionGlobal() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { id } = data
 
         const request = {
-            url: `${API_PATHS.SUPPRESSION_GROUPS}/${id}`,
-            method: 'DELETE',
+            url: `${API_PATHS.SUPPRESION}/global`,
+            method: 'POST',
+            body: data,
             headers: headers
         }
 
@@ -34,11 +34,11 @@ class SuppressionGroupDelete extends BaseCommand {
     }
 }
 
-SuppressionGroupDelete.description = 'Delete a Suppression Group'
-SuppressionGroupDelete.flags = Object.assign(
+SuppressionGlobalAdd.description = 'Add one or more email addresses to the global suppressions group'
+SuppressionGlobalAdd.flags = Object.assign(
   { 
-    'id': flags.string({description: 'The ID of the suppression group you would like to delete', required: true}),
+    'recipient_emails': getArrayFlag('The array of email addresses to add or find', true),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SuppressionGroupDelete;
+module.exports = SuppressionGlobalAdd;
