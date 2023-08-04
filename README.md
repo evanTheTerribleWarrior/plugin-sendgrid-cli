@@ -3,7 +3,7 @@
 
 Bring the power of SendGrid API to your command line!
 
-![Application screenshot](https://github.com/evanTheTerribleWarrior/plugin-sendgrid-cli/assets/54394422/240d89d5-8d6f-4611-9386-cdcd62590da6)
+![Application screenshot](https://github.com/evanTheTerribleWarrior/plugin-sendgrid-cli/assets/54394422/951b7103-9c87-4af7-8c1e-50037e692a2c)
 
 ### !!! Important !!! (This message will be deleted when the work is complete)
 This repo is work in progress. It will keep being updated until pretty much all the v3 API is included
