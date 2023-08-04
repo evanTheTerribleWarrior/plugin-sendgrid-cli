@@ -79,10 +79,24 @@ const extractFlags = (flagsObject) => {
     })
   }
 
+  const getIpAddress = (description, required) => {
+    return flags.string({
+      description: description,
+      required: required,
+      parse: (input) => {
+        const ipRegex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+        if (!ipRegex.test(input)) {
+          throw new Error('Invalid IP address. Please provide a valid IP address.');
+        }
+        return input;
+      },
+    })
+  }
   
   module.exports = {
     extractFlags,
     getArrayFlag,
     getBoolean,
-    getDate
+    getDate,
+    getIpAddress
   }

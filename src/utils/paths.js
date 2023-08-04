@@ -10,7 +10,8 @@ const API_PATHS = {
     EVENT_WEBHOOK: '/v3/user/webhooks/event',
     PARSE_WEBHOOK: '/v3/user/webhooks/parse',
     SUPPRESSION_GROUPS: '/v3/asm/groups',
-    SUPPRESION: '/v3/asm/suppressions'
+    SUPPRESION: '/v3/asm/suppressions',
+    IP_WARMUP: '/v3/ips/warmup'
 }
 
 module.exports = API_PATHS

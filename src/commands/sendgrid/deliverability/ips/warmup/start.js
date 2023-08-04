@@ -1,27 +1,27 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const API_PATHS = require('../../../../utils/paths');
-const { extractFlags } = require('../../../../utils/functions');
+const API_PATHS = require('../../../../../utils/paths');
+const { extractFlags, getBoolean } = require('../../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class ParseDelete extends BaseCommand {
+class IpWarmupStart extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.deleteParse()
+      const result = await this.warmupIP()
       this.output(result)
     }
 
-    async deleteParse() {
+    async warmupIP() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { hostname } = data
 
         const request = {
-            url: `${API_PATHS.PARSE_WEBHOOK}/settings/${hostname}`,
-            method: 'DELETE',
+            url: `${API_PATHS.IP_WARMUP}`,
+            method: 'POST',
+            body: data,
             headers: headers
         }
 
@@ -34,11 +34,11 @@ class ParseDelete extends BaseCommand {
     }
 }
 
-ParseDelete.description = 'Delete an inbound parse setting'
-ParseDelete.flags = Object.assign(
+IpWarmupStart.description = 'Put an IP address into warmup mode'
+IpWarmupStart.flags = Object.assign(
   { 
-    'hostname': flags.string({description: 'The hostname associated with the inbound parse setting that you would like to delete', required: true}),
+    'ip': flags.string({description: 'The IP address that you want to begin warming up', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = ParseDelete;
+module.exports = IpWarmupStart;

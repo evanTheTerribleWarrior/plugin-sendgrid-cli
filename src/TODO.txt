@@ -8,3 +8,5 @@ Add IP ---> throws 400
 Subusers:
 Reputation seems to be a string for "usernames", how to put multiple?
 Why when creating a subuser, assigning IPs is required?
+
+There are several endpoints (like IP warmup for example) without on-behalf-of, would it not work?

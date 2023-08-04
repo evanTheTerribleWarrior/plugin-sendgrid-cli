@@ -6,3 +6,7 @@ username is required
 
 Suppression groups:
 says "id" is required, not shown in example, what id is this?
+
+email DNS recors:
+domain id and link id are mentioned as required but seems one of them is needed 
+also it mentions an "ip id" when it fails what is this?
