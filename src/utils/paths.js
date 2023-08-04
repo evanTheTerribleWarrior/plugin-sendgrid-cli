@@ -11,7 +11,8 @@ const API_PATHS = {
     PARSE_WEBHOOK: '/v3/user/webhooks/parse',
     SUPPRESSION_GROUPS: '/v3/asm/groups',
     SUPPRESION: '/v3/asm/suppressions',
-    IP_WARMUP: '/v3/ips/warmup'
+    IP_WARMUP: '/v3/ips/warmup',
+    IP_POOLS: '/v3/ips/pools'
 }
 
 module.exports = API_PATHS
