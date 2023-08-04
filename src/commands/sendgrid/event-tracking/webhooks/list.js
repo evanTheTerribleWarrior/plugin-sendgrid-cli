@@ -7,21 +7,20 @@ require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class IPAccessRemoveOne extends BaseCommand {
+class EventWebhookList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.removeIP()
+      const result = await this.listEventWebhook()
       this.output(result)
     }
 
-    async removeIP() {
+    async listEventWebhook() {
 
-        const { headers, ...data } = extractFlags(this.flags);
-        const { id } = data;
+        const { headers } = extractFlags(this.flags);
 
         const request = {
-            url: `${API_PATHS.IP_ACCESS_MANAGEMENT}/whitelist/${id}`,
-            method: 'DELETE',
+            url: `${API_PATHS.EVENT_WEBHOOK}/settings/all`,
+            method: 'GET',
             headers: headers
         }
 
@@ -34,11 +33,10 @@ class IPAccessRemoveOne extends BaseCommand {
     }
 }
 
-IPAccessRemoveOne.description = 'Remove a single IP address from your list of allowed addresses'
-IPAccessRemoveOne.flags = Object.assign(
+EventWebhookList.description = 'Retrieve all of your Event Webhooks'
+EventWebhookList.flags = Object.assign(
   { 
-    'id': flags.string({description: 'The ID of the allowed IP address that you want to retrieve', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = IPAccessRemoveOne;
+module.exports = EventWebhookList;

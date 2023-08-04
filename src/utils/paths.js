@@ -6,7 +6,9 @@ const API_PATHS = {
     IPS: '/v3/whitelabel/ips',
     LINKS: '/v3/whitelabel/links',
     SUBUSERS: '/v3/subusers',
-    IP_ACCESS_MANAGEMENT: '/v3/access_settings'
+    IP_ACCESS_MANAGEMENT: '/v3/access_settings',
+    EVENT_WEBHOOK: '/v3/user/webhooks/event',
+    PARSE_WEBHOOK: '/v3/user/webhooks/parse'
 }
 
 module.exports = API_PATHS

@@ -48,8 +48,41 @@ const extractFlags = (flagsObject) => {
     });
   }
 
+  const getBoolean = (description, required) => {
+    return flags.string({
+      description: description,
+      required: required,
+      parse: (input) => {
+        const lowerCaseInput = input.toLowerCase();
+        if (lowerCaseInput === 'true') {
+          return true;
+        } else if (lowerCaseInput === 'false') {
+          return false;
+        } else {
+          throw new Error('Invalid value for the flag. Use --flag=true or --flag=false');
+        }
+      },
+    })
+  }
+
+  const getDate = (description, required) => {
+    return flags.string({
+      description: description,
+      required: required,
+      parse: (input) => {
+        const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+        if (!dateRegex.test(input)) {
+          throw new Error('Invalid date format. Use the format YYYY-MM-DD.');
+        }
+        return input;
+      },
+    })
+  }
+
   
   module.exports = {
     extractFlags,
-    getArrayFlag
+    getArrayFlag,
+    getBoolean,
+    getDate
   }
