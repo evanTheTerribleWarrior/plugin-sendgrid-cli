@@ -8,7 +8,8 @@ const API_PATHS = {
     SUBUSERS: '/v3/subusers',
     IP_ACCESS_MANAGEMENT: '/v3/access_settings',
     EVENT_WEBHOOK: '/v3/user/webhooks/event',
-    PARSE_WEBHOOK: '/v3/user/webhooks/parse'
+    PARSE_WEBHOOK: '/v3/user/webhooks/parse',
+    SUPPRESSION_GROUPS: '/v3/asm/groups'
 }
 
 module.exports = API_PATHS
