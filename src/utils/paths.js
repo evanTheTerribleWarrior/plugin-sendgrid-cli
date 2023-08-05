@@ -12,7 +12,8 @@ const API_PATHS = {
     SUPPRESSION_GROUPS: '/v3/asm/groups',
     SUPPRESION: '/v3/asm/suppressions',
     IP_WARMUP: '/v3/ips/warmup',
-    IP_POOLS: '/v3/ips/pools'
+    IP_POOLS: '/v3/ips/pools',
+    IP: '/v3/ips'
 }
 
 module.exports = API_PATHS

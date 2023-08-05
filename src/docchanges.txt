@@ -10,3 +10,10 @@ says "id" is required, not shown in example, what id is this?
 email DNS recors:
 domain id and link id are mentioned as required but seems one of them is needed 
 also it mentions an "ip id" when it fails what is this?
+
+IP address docs
+https://docs.sendgrid.com/api-reference/ip-address/add-ips
+"user_can_send" is not mentioned
+
+List IP addresses
+the sort-by-direction has 2 only options "asc" and "desc"
