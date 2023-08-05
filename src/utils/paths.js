@@ -13,7 +13,8 @@ const API_PATHS = {
     SUPPRESION: '/v3/asm/suppressions',
     IP_WARMUP: '/v3/ips/warmup',
     IP_POOLS: '/v3/ips/pools',
-    IP: '/v3/ips'
+    IP: '/v3/ips',
+    MAIL_SETTINGS: '/v3/mail_settings'
 }
 
 module.exports = API_PATHS
