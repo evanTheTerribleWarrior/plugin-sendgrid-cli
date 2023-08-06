@@ -7,20 +7,19 @@ require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class ParseFetch extends BaseCommand {
+class PartnerSettingsList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchParse()
+      const result = await this.listPartnerSettings()
       this.output(result)
     }
 
-    async fetchParse() {
+    async listPartnerSettings() {
 
-        const { headers, ...data } = extractFlags(this.flags);
-        const { hostname } = data
+        const { headers } = extractFlags(this.flags);
 
         const request = {
-            url: `${API_PATHS.PARSE_WEBHOOK}/settings/${hostname}`,
+            url: `${API_PATHS.PARTNER_SETTINGS}`,
             method: 'GET',
             headers: headers
         }
@@ -34,11 +33,10 @@ class ParseFetch extends BaseCommand {
     }
 }
 
-ParseFetch.description = 'Retrieve an inbound parse setting'
-ParseFetch.flags = Object.assign(
+PartnerSettingsList.description = 'Retrieve a list of all partner settings that you can enable'
+PartnerSettingsList.flags = Object.assign(
   { 
-    'hostname': flags.string({description: 'The hostname associated with the inbound parse setting that you would like to retrieve', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = ParseFetch;
+module.exports = PartnerSettingsList;

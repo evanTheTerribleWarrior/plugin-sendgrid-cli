@@ -2,26 +2,27 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../utils/paths');
-const { extractFlags } = require('../../../../utils/functions');
+const { extractFlags, getArrayFlag, getBoolean } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class ParseFetch extends BaseCommand {
+class TeammateUpdate extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchParse()
+      const result = await this.updateTeammate()
       this.output(result)
     }
 
-    async fetchParse() {
+    async updateTeammate() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { hostname } = data
+        const { username, ...dataWithoutUsername} = data;
 
         const request = {
-            url: `${API_PATHS.PARSE_WEBHOOK}/settings/${hostname}`,
-            method: 'GET',
+            url: `${API_PATHS.TEAMMATES}/${username}`,
+            method: 'PATCH',
+            body: dataWithoutUsername,
             headers: headers
         }
 
@@ -34,11 +35,12 @@ class ParseFetch extends BaseCommand {
     }
 }
 
-ParseFetch.description = 'Retrieve an inbound parse setting'
-ParseFetch.flags = Object.assign(
+TeammateUpdate.description = 'Update a specific Teammate'
+TeammateUpdate.flags = Object.assign(
   { 
-    'hostname': flags.string({description: 'The hostname associated with the inbound parse setting that you would like to retrieve', required: true}),
+    'scopes': getArrayFlag('Set to specify list of scopes that teammate should have. Should be empty if teammate is an admin', true),
+    'is-admin': getBoolean('Set to true if teammate should be an admin user', true),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = ParseFetch;
+module.exports = TeammateUpdate;

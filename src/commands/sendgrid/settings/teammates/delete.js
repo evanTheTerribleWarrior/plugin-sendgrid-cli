@@ -7,21 +7,21 @@ require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class ParseFetch extends BaseCommand {
+class TeammateDelete extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchParse()
+      const result = await this.deleteTeammate()
       this.output(result)
     }
 
-    async fetchParse() {
+    async deleteTeammate() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { hostname } = data
+        const { username } = data;
 
         const request = {
-            url: `${API_PATHS.PARSE_WEBHOOK}/settings/${hostname}`,
-            method: 'GET',
+            url: `${API_PATHS.TEAMMATES}/${username}`,
+            method: 'DELETE',
             headers: headers
         }
 
@@ -34,11 +34,11 @@ class ParseFetch extends BaseCommand {
     }
 }
 
-ParseFetch.description = 'Retrieve an inbound parse setting'
-ParseFetch.flags = Object.assign(
+TeammateDelete.description = 'Delete a specific Teammate'
+TeammateDelete.flags = Object.assign(
   { 
-    'hostname': flags.string({description: 'The hostname associated with the inbound parse setting that you would like to retrieve', required: true}),
+    'username': flags.string({description: 'The username of the teammate you want to retrieve', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = ParseFetch;
+module.exports = TeammateDelete;

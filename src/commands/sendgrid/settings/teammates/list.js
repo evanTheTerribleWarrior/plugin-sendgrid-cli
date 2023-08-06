@@ -7,21 +7,21 @@ require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class ParseFetch extends BaseCommand {
+class TeammateList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchParse()
+      const result = await this.listTeammate()
       this.output(result)
     }
 
-    async fetchParse() {
+    async listTeammate() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { hostname } = data
 
         const request = {
-            url: `${API_PATHS.PARSE_WEBHOOK}/settings/${hostname}`,
+            url: `${API_PATHS.TEAMMATES}`,
             method: 'GET',
+            qs: data,
             headers: headers
         }
 
@@ -34,11 +34,12 @@ class ParseFetch extends BaseCommand {
     }
 }
 
-ParseFetch.description = 'Retrieve an inbound parse setting'
-ParseFetch.flags = Object.assign(
+TeammateList.description = 'Retrieve a list of all current Teammates'
+TeammateList.flags = Object.assign(
   { 
-    'hostname': flags.string({description: 'The hostname associated with the inbound parse setting that you would like to retrieve', required: true}),
+    'limit': flags.integer({description: 'Number of teammates to return', required: false}),
+    'offset': flags.integer({description: 'Paging offset', required: false}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = ParseFetch;
+module.exports = TeammateList;

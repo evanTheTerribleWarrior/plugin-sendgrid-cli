@@ -14,7 +14,9 @@ const API_PATHS = {
     IP_WARMUP: '/v3/ips/warmup',
     IP_POOLS: '/v3/ips/pools',
     IP: '/v3/ips',
-    MAIL_SETTINGS: '/v3/mail_settings'
+    MAIL_SETTINGS: '/v3/mail_settings',
+    PARTNER_SETTINGS: '/v3/partner_settings',
+    TEAMMATES: '/v3/teammates'
 }
 
 module.exports = API_PATHS
