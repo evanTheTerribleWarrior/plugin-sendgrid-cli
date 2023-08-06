@@ -20,7 +20,10 @@ const API_PATHS = {
     INVALID_EMAIL: '/v3/suppression/invalid_emails',
     BOUNCES: '/v3/suppression/bounces',
     BLOCKS: '/v3/suppression/blocks',
-    SPAM_REPORTS: '/v3/suppression/spam_reports'
+    SPAM_REPORTS: '/v3/suppression/spam_reports',
+    SSO_CERTIFICATES: '/v3/sso/certificates',
+    SSO_INTEGRATIONS: '/v3/sso/integrations',
+    SSO_TEAMMATES: '/v3/sso/teammates'
 }
 
 module.exports = API_PATHS

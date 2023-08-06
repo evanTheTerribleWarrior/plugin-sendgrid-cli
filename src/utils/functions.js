@@ -92,11 +92,30 @@ const extractFlags = (flagsObject) => {
       },
     })
   }
+
+  const getObjectArray = (description, required) => {
+    return flags.build({
+      description: description,
+      required: required,
+      parse: (input) => {
+        try {
+          const parsedArray = JSON.parse(input);
+          if (!Array.isArray(parsedArray)) {
+            throw new Error('Invalid input. The flag must represent an array of objects.');
+          }
+          return parsedArray;
+        } catch (error) {
+          throw new Error('Invalid input. The flag must represent an array of objects.');
+        }
+      },
+    })
+  }
   
   module.exports = {
     extractFlags,
     getArrayFlag,
     getBoolean,
     getDate,
-    getIpAddress
+    getIpAddress,
+    getObjectArray
   }
