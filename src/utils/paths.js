@@ -16,7 +16,8 @@ const API_PATHS = {
     IP: '/v3/ips',
     MAIL_SETTINGS: '/v3/mail_settings',
     PARTNER_SETTINGS: '/v3/partner_settings',
-    TEAMMATES: '/v3/teammates'
+    TEAMMATES: '/v3/teammates',
+    INVALID_EMAIL: '/v3/suppression/invalid_emails'
 }
 
 module.exports = API_PATHS
