@@ -17,7 +17,10 @@ const API_PATHS = {
     MAIL_SETTINGS: '/v3/mail_settings',
     PARTNER_SETTINGS: '/v3/partner_settings',
     TEAMMATES: '/v3/teammates',
-    INVALID_EMAIL: '/v3/suppression/invalid_emails'
+    INVALID_EMAIL: '/v3/suppression/invalid_emails',
+    BOUNCES: '/v3/suppression/bounces',
+    BLOCKS: '/v3/suppression/blocks',
+    SPAM_REPORTS: '/v3/suppression/spam_reports'
 }
 
 module.exports = API_PATHS
