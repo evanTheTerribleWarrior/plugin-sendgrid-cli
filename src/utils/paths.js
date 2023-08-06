@@ -24,7 +24,14 @@ const API_PATHS = {
     SSO_CERTIFICATES: '/v3/sso/certificates',
     SSO_INTEGRATIONS: '/v3/sso/integrations',
     SSO_TEAMMATES: '/v3/sso/teammates',
-    ALERTS: '/v3/alerts'
+    ALERTS: '/v3/alerts',
+    USER_PROFILE: '/v3/user/profile',
+    USER_ACCOUNT: '/v3/user/account',
+    USER_EMAIL: '/v3/user/email',
+    USER_USERNAME: '/v3/user/username',
+    USER_BALANCE: '/v3/user/credits',
+    USER_PASSWORD: '/v3/user/password',
+    RECIPIENT_ERASE: '/v3/recipients/erasejob'
 }
 
 module.exports = API_PATHS
