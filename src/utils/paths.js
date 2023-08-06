@@ -23,7 +23,8 @@ const API_PATHS = {
     SPAM_REPORTS: '/v3/suppression/spam_reports',
     SSO_CERTIFICATES: '/v3/sso/certificates',
     SSO_INTEGRATIONS: '/v3/sso/integrations',
-    SSO_TEAMMATES: '/v3/sso/teammates'
+    SSO_TEAMMATES: '/v3/sso/teammates',
+    ALERTS: '/v3/alerts'
 }
 
 module.exports = API_PATHS
