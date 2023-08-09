@@ -16,3 +16,12 @@ Retrieve all -  Limit and offset not working? How to use them?
 
 https://docs.sendgrid.com/api-reference/bounces-api/delete-a-bounce
 Why an email address is both on path and query param
+
+
+
+=======================
+Sections to be done
+Deliverability:
+---> Email Validation: It gives 403, but not from Postman??
+---> Sender Verification
+---> IP address management

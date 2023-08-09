@@ -31,7 +31,10 @@ const API_PATHS = {
     USER_USERNAME: '/v3/user/username',
     USER_BALANCE: '/v3/user/credits',
     USER_PASSWORD: '/v3/user/password',
-    RECIPIENT_ERASE: '/v3/recipients/erasejob'
+    RECIPIENT_ERASE: '/v3/recipients/erasejob',
+    EMAIL_VALIDATION: '/v3/validations/email',
+    TEMPLATES: '/v3/templates',
+    ACTIVITY: '/v3/messages'
 }
 
 module.exports = API_PATHS
