@@ -35,7 +35,13 @@ const API_PATHS = {
     EMAIL_VALIDATION: '/v3/validations/email',
     TEMPLATES: '/v3/templates',
     ACTIVITY: '/v3/messages',
-    TRACKING_SETTINGS: '/v3/tracking_settings'
+    TRACKING_SETTINGS: '/v3/tracking_settings',
+    STATS: '/v3/stats',
+    STATS_GEO: '/v3/geo/stats',
+    STATS_DEVICES: '/v3/devices/stats',
+    STATS_CLIENTS: '/v3/clients/stats',
+    STATS_MAILBOX: '/v3/mailbox_providers/stats',
+    STATS_BROWSER: '/v3/browsers/stats'
 }
 
 module.exports = API_PATHS

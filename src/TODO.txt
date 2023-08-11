@@ -25,3 +25,7 @@ Deliverability:
 ---> Email Validation: It gives 403, but not from Postman??
 ---> Sender Verification
 ---> IP address management
+
+Why on Stats we don't put all the other sections under /v3/stats/ ?
+
+Re-do the Designs with the new flags
