@@ -110,6 +110,19 @@ const extractFlags = (flagsObject) => {
       },
     })
   }
+
+  const getStringWithLength = (description, required, length) => {
+    return flags.build({
+      description: description,
+      required: required,
+      parse: (input) => {
+        if (typeof input !== 'string' || input.length > length) {
+          throw new Error(`Invalid value. Provide a string with a maximum length of ${length} characters`);
+        }
+        return input;
+      },
+    })
+  }
   
   module.exports = {
     extractFlags,
@@ -117,5 +130,6 @@ const extractFlags = (flagsObject) => {
     getBoolean,
     getDate,
     getIpAddress,
-    getObjectArray
+    getObjectArray,
+    getStringWithLength
   }
