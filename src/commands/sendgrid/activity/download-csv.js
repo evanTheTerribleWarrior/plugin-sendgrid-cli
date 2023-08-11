@@ -7,23 +7,21 @@ const client = require('@sendgrid/client');
 const API_PATHS = require('../../../utils/paths');
 client.setApiKey(process.env.SG_API_KEY);
 
-class ActivityFilter extends BaseCommand {
+class CsvDownload extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.filterActivity()
+      const result = await this.requestCSV()
       this.output(result.result)
     }
 
-    async filterActivity() {
+    async requestCSV() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const encodedQuery = encodeURIComponent(data.query);
-        data.query = encodedQuery;
-          
+        const { id } = data;
+
         const request = {
-            url: `${API_PATHS.ACTIVITY}`,
+            url: `${API_PATHS.ACTIVITY}/download/${id}`,
             method: 'GET',
-            qs: data,
             headers: headers
         }
 
@@ -33,22 +31,11 @@ class ActivityFilter extends BaseCommand {
     }
 }
 
-ActivityFilter.description = 'Filter all messages to search your Email Activity'
-ActivityFilter.flags = Object.assign(
+CsvDownload.description = 'Request a CSSV file with your last 1 million messages. An email will be sent to download the file'
+CsvDownload.flags = Object.assign(
   {
-    'query': flags.string({description: 'Use the query syntax to filter your email activity', required: true}),
-    'limit': flags.integer(
-        {
-            description: 'ID of the version', 
-            required: true,
-            parse: (input) => {
-                if (input < 0 || input > 1000) {
-                    throw new Error('Invalid value. Provide an integer between 0 and 1000.');
-                }
-                return input;
-            }
-        }),
+    'id': flags.string({description: 'UUID used to locate the download csv request entry in the DB', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = ActivityFilter;
+module.exports = CsvDownload;

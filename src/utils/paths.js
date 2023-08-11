@@ -34,7 +34,8 @@ const API_PATHS = {
     RECIPIENT_ERASE: '/v3/recipients/erasejob',
     EMAIL_VALIDATION: '/v3/validations/email',
     TEMPLATES: '/v3/templates',
-    ACTIVITY: '/v3/messages'
+    ACTIVITY: '/v3/messages',
+    TRACKING_SETTINGS: '/v3/tracking_settings'
 }
 
 module.exports = API_PATHS

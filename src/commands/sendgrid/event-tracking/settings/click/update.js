@@ -7,20 +7,20 @@ require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SsoCertificateCreate extends BaseCommand {
+class ClickUpdate extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.createSsoCertificate()
+      const result = await this.updateClickSettings()
       this.output(result)
     }
 
-    async createSsoCertificate() {
+    async updateClickSettings() {
 
         const { headers, ...data } = extractFlags(this.flags);
 
         const request = {
-            url: `${API_PATHS.SSO_CERTIFICATES}`,
-            method: 'POST',
+            url: `${API_PATHS.TRACKING_SETTINGS}/click`,
+            method: 'PATCH',
             body: data,
             headers: headers
         }
@@ -34,13 +34,11 @@ class SsoCertificateCreate extends BaseCommand {
     }
 }
 
-SsoCertificateCreate.description = 'Create an SSO certificate'
-SsoCertificateCreate.flags = Object.assign(
+ClickUpdate.description = 'Update click tracking settings on your account'
+ClickUpdate.flags = Object.assign(
   { 
-    'public-certificate': flags.string({description: 'This public certificate allows SendGrid to verify that SAML requests it receives are signed by an IdP that it recognizes', required: true}),
-    'enabled': getBoolean('Indicates if the certificate is enabled', false),
-    'integration-id': flags.string({description: 'An ID that matches a certificate to a specific IdP integration. This is the id returned by the "Get All SSO Integrations" endpoint', required: true}),
+    'enabled': getBoolean('The setting you want to use for click tracking', true),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoCertificateCreate;
+module.exports = ClickUpdate;
