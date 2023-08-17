@@ -1,6 +1,15 @@
 TODO after 1st pass:
 ---> Add optional limits to array flag
 
+https://api.sendgrid.com/v3/subusers/[username]/credits
+with data:
+{type: [string], reset_frequency: [string], total: [integer]}
+works
+
+
+----> Unpublished API to get email and marketing balance2
+----> Unpublished API for Images
+
 ===========================================
 
 - limit flag is integer, not string
