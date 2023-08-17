@@ -1,31 +1,31 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const API_PATHS = require('../../../../../utils/paths');
-const { extractFlags, getBoolean } = require('../../../../../utils/functions');
+const API_PATHS = require('../../../../utils/paths');
+const { extractFlags } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
-client.setApiKey(process.env.SG_API_KEY);
 
-class SsoCertificateFetch extends BaseCommand {
+class SuppressionGroupsEmailFetch extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchSsoCertificate()
+      const result = await this.fetchSuppressionGroupEmail()
       this.output(result)
     }
 
-    async fetchSsoCertificate() {
+    async fetchSuppressionGroupEmail() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { cert_id } = data;
+        const { email } = data
 
         const request = {
-            url: `${API_PATHS.SSO_CERTIFICATES}/${cert_id}`,
+            url: `${API_PATHS.SUPPRESION}/${email}`,
             method: 'GET',
             headers: headers
         }
 
         try {
+            client.setApiKey(process.env.SG_API_KEY);
             const [response] = await client.request(request);
             return response.body
         } catch (error) {
@@ -34,11 +34,11 @@ class SsoCertificateFetch extends BaseCommand {
     }
 }
 
-SsoCertificateFetch.description = 'Retrieve an individual SSO certificate'
-SsoCertificateFetch.flags = Object.assign(
+SuppressionGroupsEmailFetch.description = 'Returns a list of all groups from which the given email address has been unsubscribed'
+SuppressionGroupsEmailFetch.flags = Object.assign(
   { 
-    'cert-id': flags.string({description: 'An SSO certificate ID', required: true}),
+    'email': flags.string({description: 'The email address that you want to search suppression groups for', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoCertificateFetch;
+module.exports = SuppressionGroupsEmailFetch;

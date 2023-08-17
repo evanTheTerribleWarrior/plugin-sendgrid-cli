@@ -1,27 +1,27 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const API_PATHS = require('../../../../../utils/paths');
-const { extractFlags, getBoolean } = require('../../../../../utils/functions');
+const API_PATHS = require('../../../../utils/paths');
+const { extractFlags, getBoolean } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SsoIntegrationList extends BaseCommand {
+class SsoCertificateList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.listSsoIntegration()
+      const result = await this.listSsoCertificate()
       this.output(result)
     }
 
-    async listSsoIntegration() {
+    async listSsoCertificate() {
 
         const { headers, ...data } = extractFlags(this.flags);
+        const { integration_id } = data;
 
         const request = {
-            url: `${API_PATHS.SSO_INTEGRATIONS}`,
+            url: `${API_PATHS.SSO_INTEGRATIONS}/${integration_id}/certificates`,
             method: 'GET',
-            qs: data,
             headers: headers
         }
 
@@ -34,11 +34,11 @@ class SsoIntegrationList extends BaseCommand {
     }
 }
 
-SsoIntegrationList.description = 'List SSO integrations'
-SsoIntegrationList.flags = Object.assign(
+SsoCertificateList.description = 'Retrieve all your IdP configurations by configuration ID'
+SsoCertificateList.flags = Object.assign(
   { 
-    'si': getBoolean('If this parameter is set to true, the response will include the completed_integration field', false),
+    'integration-id': flags.string({description: 'An ID that matches a certificate to a specific IdP integration', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoIntegrationList;
+module.exports = SsoCertificateList;

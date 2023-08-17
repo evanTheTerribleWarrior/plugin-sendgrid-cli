@@ -1,28 +1,27 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const API_PATHS = require('../../../../../utils/paths');
-const { extractFlags, getBoolean } = require('../../../../../utils/functions');
+const API_PATHS = require('../../../../utils/paths');
+const { extractFlags, getBoolean } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SsoIntegrationFetch extends BaseCommand {
+class SsoCertificateFetch extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.fetchSsoIntegration()
+      const result = await this.fetchSsoCertificate()
       this.output(result)
     }
 
-    async fetchSsoIntegration() {
+    async fetchSsoCertificate() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { id, ...dataWithoutId } = data;
+        const { cert_id } = data;
 
         const request = {
-            url: `${API_PATHS.SSO_INTEGRATIONS}/${id}`,
+            url: `${API_PATHS.SSO_CERTIFICATES}/${cert_id}`,
             method: 'GET',
-            qs: dataWithoutId,
             headers: headers
         }
 
@@ -35,12 +34,11 @@ class SsoIntegrationFetch extends BaseCommand {
     }
 }
 
-SsoIntegrationFetch.description = 'Fetch an SSO integration'
-SsoIntegrationFetch.flags = Object.assign(
+SsoCertificateFetch.description = 'Retrieve an individual SSO certificate'
+SsoCertificateFetch.flags = Object.assign(
   { 
-    'id': flags.string({description: 'The ID of the integration', required: true}),
-    'si': getBoolean('If this parameter is set to true, the response will include the completed_integration field', false),
+    'cert-id': flags.string({description: 'An SSO certificate ID', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoIntegrationFetch;
+module.exports = SsoCertificateFetch;

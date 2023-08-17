@@ -6,26 +6,26 @@ const { extractFlags } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 
-class EmailValidate extends BaseCommand {
+class SuppressionFetch extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.emailValidate()
+      const result = await this.fetchSuppressionGroup()
       this.output(result)
     }
 
-    async emailValidate() {
+    async fetchSuppressionGroup() {
 
         const { headers, ...data } = extractFlags(this.flags);
+        const { id } = data
 
         const request = {
-            url: `${API_PATHS.EMAIL_VALIDATION}`,
-            method: 'POST',
-            body: data,
+            url: `${API_PATHS.SUPPRESSION_GROUPS}/${id}/suppressions`,
+            method: 'GET',
             headers: headers
         }
 
         try {
-            client.setApiKey(process.env.SG_VALIDATION_KEY);
+            client.setApiKey(process.env.SG_API_KEY);
             const [response] = await client.request(request);
             return response.body
         } catch (error) {
@@ -34,12 +34,11 @@ class EmailValidate extends BaseCommand {
     }
 }
 
-EmailValidate.description = 'Validate an email address'
-EmailValidate.flags = Object.assign(
+SuppressionFetch.description = 'Retrieve all suppressed email addresses belonging to the given group'
+SuppressionFetch.flags = Object.assign(
   { 
-    'email': flags.string({description: 'The email address that you want to validate', required: true}),
-    'source': flags.string({description: 'A one-word classifier for where this validation originated', required: false}),
+    'id': flags.string({description: 'The ID of the suppression group you would like to retrieve', required: true}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = EmailValidate;
+module.exports = SuppressionFetch;

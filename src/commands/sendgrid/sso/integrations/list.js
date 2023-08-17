@@ -1,27 +1,27 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const API_PATHS = require('../../../../../utils/paths');
-const { extractFlags, getBoolean } = require('../../../../../utils/functions');
+const API_PATHS = require('../../../../utils/paths');
+const { extractFlags, getBoolean } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SsoCertificateDelete extends BaseCommand {
+class SsoIntegrationList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.deleteSsoCertificate()
+      const result = await this.listSsoIntegration()
       this.output(result)
     }
 
-    async deleteSsoCertificate() {
+    async listSsoIntegration() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { cert_id } = data;
 
         const request = {
-            url: `${API_PATHS.SSO_CERTIFICATES}/${cert_id}`,
-            method: 'DELETE',
+            url: `${API_PATHS.SSO_INTEGRATIONS}`,
+            method: 'GET',
+            qs: data,
             headers: headers
         }
 
@@ -34,11 +34,11 @@ class SsoCertificateDelete extends BaseCommand {
     }
 }
 
-SsoCertificateDelete.description = 'Delete an individual SSO certificate'
-SsoCertificateDelete.flags = Object.assign(
+SsoIntegrationList.description = 'List SSO integrations'
+SsoIntegrationList.flags = Object.assign(
   { 
-    'cert-id': flags.string({description: 'An SSO certificate ID', required: true}),
+    'si': getBoolean('If this parameter is set to true, the response will include the completed_integration field', false),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoCertificateDelete;
+module.exports = SsoIntegrationList;

@@ -42,7 +42,10 @@ const API_PATHS = {
     STATS_CLIENTS: '/v3/clients/stats',
     STATS_MAILBOX: '/v3/mailbox_providers/stats',
     STATS_BROWSER: '/v3/browsers/stats',
-    SENDER_VERIFICATION: '/v3/verified_senders'
+    SENDER_VERIFICATION: '/v3/verified_senders',
+    ACCOUNT_PROVISIONING: '/v3/partners',
+    DESIGNS: '/v3/designs',
+    IP_ADDRESS_MANAGEMENT: '/v3/send_ips'
 }
 
 module.exports = API_PATHS

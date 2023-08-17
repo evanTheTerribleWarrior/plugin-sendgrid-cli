@@ -1,9 +1,10 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
+const {extractFlags} = require('../../../utils/functions');
+const API_PATHS = require('../../../utils/paths')
 require('dotenv').config()
 const client = require('@sendgrid/client');
-client.setApiKey(process.env.SG_API_KEY);
 
 class DesignDelete extends BaseCommand {
     async run() {
@@ -14,24 +15,29 @@ class DesignDelete extends BaseCommand {
 
     async deleteDesign() {
           
+      const { headers, ...data } = extractFlags(this.flags);
+      const { id } = data;
+
       const request = {
-        url: `/v3/designs/${this.flags.id}`,
+        url: `${API_PATHS.DESIGNS}/${id}`,
         method: 'DELETE'
       }
 
       try {
-        await client.request(request);
-        return "Design deleted successfully"
-      } catch (error) {
-        return error
-      }    
-    }
+            client.setApiKey(process.env.SG_API_KEY);
+            const [response] = await client.request(request);
+            return response.body
+        } catch (error) {
+            return error
+        }   
+      }
 }
 
 DesignDelete.description = 'Delete a single Design from your library'
 DesignDelete.flags = Object.assign(
   {
-    'id': flags.string({description: 'The ID of the design', required: true})
+    'id': flags.string({description: 'The ID of the design', required: true}),
+    'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
 module.exports = DesignDelete;

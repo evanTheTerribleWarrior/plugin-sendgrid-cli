@@ -2,30 +2,30 @@ const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
 const API_PATHS = require('../../../../../utils/paths');
-const { extractFlags, getBoolean } = require('../../../../../utils/functions');
+const { extractFlags, getIpAddress, getBoolean } = require('../../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
-client.setApiKey(process.env.SG_API_KEY);
 
-class SsoCertificateList extends BaseCommand {
+class IpMgmtPoolsList extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.listSsoCertificate()
+      const result = await this.listPools()
       this.output(result)
     }
 
-    async listSsoCertificate() {
+    async listPools() {
 
         const { headers, ...data } = extractFlags(this.flags);
-        const { integration_id } = data;
 
         const request = {
-            url: `${API_PATHS.SSO_INTEGRATIONS}/${integration_id}/certificates`,
+            url: `${API_PATHS.IP_ADDRESS_MANAGEMENT}/pools`,
             method: 'GET',
+            qs: data,
             headers: headers
         }
 
         try {
+            client.setApiKey(process.env.SG_API_KEY);
             const [response] = await client.request(request);
             return response.body
         } catch (error) {
@@ -34,11 +34,13 @@ class SsoCertificateList extends BaseCommand {
     }
 }
 
-SsoCertificateList.description = 'Retrieve all your IdP configurations by configuration ID'
-SsoCertificateList.flags = Object.assign(
+IpMgmtPoolsList.description = 'Returns a list of your IP Pools and a sample of each Pools\' associated IP addresses'
+IpMgmtPoolsList.flags = Object.assign(
   { 
-    'integration-id': flags.string({description: 'An ID that matches a certificate to a specific IdP integration', required: true}),
+    'ip': getIpAddress('The IP address to get', false),
+    'limit': flags.integer({description: 'Specifies the number of results to be returned by the API', required: false}),
+    'after-key': flags.integer({description: 'Specifies which items to be returned by the API', required: false}),
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoCertificateList;
+module.exports = IpMgmtPoolsList;

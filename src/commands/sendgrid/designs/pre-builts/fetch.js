@@ -1,6 +1,8 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
+const {extractFlags} = require('../../../../utils/functions');
+const API_PATHS = require('../../../../utils/paths')
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
@@ -13,14 +15,22 @@ class DesignFetchPreBuilt extends BaseCommand {
     }
 
     async fetchDesign() {
+
+      const { headers, ...data } = extractFlags(this.flags);
+      const { id } = data;
           
       const request = {
-        url: `/v3/designs/pre-builts/${this.flags.id}`,
+        url: `${API_PATHS.DESIGNS}/pre-builts/${id}`,
         method: 'GET'
       }
 
-      const [response] = await client.request(request);
-      return response.body
+      try {
+        client.setApiKey(process.env.SG_API_KEY);
+        const [response] = await client.request(request);
+        return response.body
+      } catch (error) {
+          return error
+      }   
           
     }
 }
@@ -28,7 +38,8 @@ class DesignFetchPreBuilt extends BaseCommand {
 DesignFetchPreBuilt.description = 'Fetch a single Design from the SendGrid pre-built list'
 DesignFetchPreBuilt.flags = Object.assign(
   {
-    'id': flags.string({description: 'The ID of the design', required: true})
+    'id': flags.string({description: 'The ID of the design', required: true}),
+    'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
 module.exports = DesignFetchPreBuilt;

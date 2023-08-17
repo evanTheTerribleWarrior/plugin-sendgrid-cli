@@ -1,3 +1,8 @@
+TODO after 1st pass:
+---> Add optional limits to array flag
+
+===========================================
+
 - limit flag is integer, not string
 - test auth domains on subusers
 - design APIs don't have on behalf of
@@ -29,3 +34,6 @@ Deliverability:
 Why on Stats we don't put all the other sections under /v3/stats/ ?
 
 Re-do the Designs with the new flags
+
+https://docs.sendgrid.com/api-reference/account-provisioning-api-account-operations/list-accounts
+why offset is a string

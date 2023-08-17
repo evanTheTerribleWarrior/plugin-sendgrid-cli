@@ -1,27 +1,28 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const API_PATHS = require('../../../../../utils/paths');
-const { extractFlags, getBoolean, getArrayFlag, getObjectArray } = require('../../../../../utils/functions');
+const API_PATHS = require('../../../../utils/paths');
+const { extractFlags, getBoolean, getArrayFlag, getObjectArray } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 client.setApiKey(process.env.SG_API_KEY);
 
-class SsoTeammateCreate extends BaseCommand {
+class SsoTeammateUpdate extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.createSsoTeammate()
+      const result = await this.updateSsoTeammate()
       this.output(result)
     }
 
-    async createSsoTeammate() {
+    async updateSsoTeammate() {
 
         const { headers, ...data } = extractFlags(this.flags);
+        const { username, ...dataWithoutUsername } = data;
 
         const request = {
-            url: `${API_PATHS.SSO_TEAMMATES}`,
-            method: 'POST',
-            body: data,
+            url: `${API_PATHS.SSO_TEAMMATES}/${username}`,
+            method: 'PATCH',
+            body: dataWithoutUsername,
             headers: headers
         }
 
@@ -34,10 +35,10 @@ class SsoTeammateCreate extends BaseCommand {
     }
 }
 
-SsoTeammateCreate.description = 'Create an SSO Teammate'
-SsoTeammateCreate.flags = Object.assign(
+SsoTeammateUpdate.description = 'Update an SSO Teammate'
+SsoTeammateUpdate.flags = Object.assign(
   { 
-    'email': flags.string({description: 'Set this property to the Teammate\'s email address. This email address will also function as the Teammate\'s username and must match the address assigned to the user in your IdP', required: true}),
+    'username': flags.string({description: 'Set this property to the Teammate\'s email address. This email address will also function as the Teammate\'s username and must match the address assigned to the user in your IdP', required: true}),
     'first-name': flags.string({description: 'Set this property to the Teammate\'s first name', required: true}),
     'last-name': flags.string({description: 'Set this property to the Teammate\'s last name', required: true}),
     'is-admin': getBoolean('Set this property to true if the Teammate has admin permissions', false),
@@ -48,4 +49,4 @@ SsoTeammateCreate.flags = Object.assign(
     'on-behalf-of': flags.string({description: 'Allows you to make API calls from a parent account on behalf of the parent\'s Subusers or customer account', required: false})
   }, BaseCommand.flags)
 
-module.exports = SsoTeammateCreate;
+module.exports = SsoTeammateUpdate;
