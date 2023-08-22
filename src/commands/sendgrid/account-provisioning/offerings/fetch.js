@@ -10,7 +10,7 @@ class OfferingsFetch extends BaseCommand {
     async run() {
       await super.run();
       const result = await this.fetchOfferings()
-      this.output(result.result)
+      this.output(result)
     }
 
     async fetchOfferings() {

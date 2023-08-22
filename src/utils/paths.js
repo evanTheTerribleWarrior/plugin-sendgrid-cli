@@ -45,7 +45,9 @@ const API_PATHS = {
     SENDER_VERIFICATION: '/v3/verified_senders',
     ACCOUNT_PROVISIONING: '/v3/partners',
     DESIGNS: '/v3/designs',
-    IP_ADDRESS_MANAGEMENT: '/v3/send_ips'
+    IP_ADDRESS_MANAGEMENT: '/v3/send_ips',
+    SEQ: '/v3/engagementquality',
+    MC_LISTS: '/v3/marketing/lists'
 }
 
 module.exports = API_PATHS

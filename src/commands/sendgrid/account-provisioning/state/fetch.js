@@ -10,7 +10,7 @@ class AccountStateFetch extends BaseCommand {
     async run() {
       await super.run();
       const result = await this.fetchAccountState()
-      this.output(result.result)
+      this.output(result)
     }
 
     async fetchAccountState() {

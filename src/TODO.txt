@@ -1,6 +1,11 @@
 TODO after 1st pass:
 ---> Add optional limits to array flag
 
+Endpoints to finish:
+Mail Send
+Account provisioning - create account, update offerings
+
+Unpublished APIs:
 https://api.sendgrid.com/v3/subusers/[username]/credits
 with data:
 {type: [string], reset_frequency: [string], total: [integer]}
@@ -46,3 +51,13 @@ Re-do the Designs with the new flags
 
 https://docs.sendgrid.com/api-reference/account-provisioning-api-account-operations/list-accounts
 why offset is a string
+
+
+
+Endpoints checked:
+twilio sendgrid:account-provisioning:offerings:fetch
+twilio sendgrid:account-provisioning:offerings:list
+twilio sendgrid:account-provisioning:state:fetch
+twilio sendgrid:account-provisioning:state:update
+twilio sendgrid:account-provisioning:sso
+twilio sendgrid:account-provisioning:list

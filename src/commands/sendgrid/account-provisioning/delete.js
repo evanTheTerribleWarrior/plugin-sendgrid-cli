@@ -11,7 +11,7 @@ class AccountDelete extends BaseCommand {
     async run() {
       await super.run();
       const result = await this.deleteAccount()
-      this.output(result.result)
+      this.output(result)
     }
 
     async deleteAccount() {

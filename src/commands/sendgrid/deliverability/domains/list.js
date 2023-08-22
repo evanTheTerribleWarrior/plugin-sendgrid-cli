@@ -5,7 +5,6 @@ const API_PATHS = require('../../../../utils/paths');
 const { extractFlags } = require('../../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
-client.setApiKey(process.env.SG_API_KEY);
 
 class DomainsList extends BaseCommand {
     async run() {
@@ -26,8 +25,9 @@ class DomainsList extends BaseCommand {
         }
 
         try {
-            const [response] = await client.request(request);
-            return response.body
+          client.setApiKey(process.env.SG_API_KEY);
+          const [response] = await client.request(request);
+          return response.body
         } catch (error) {
             return error
         }    

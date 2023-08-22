@@ -1,4 +1,5 @@
 const { flags } = require('@oclif/command');
+const fs = require('fs')
 
 const extractFlags = (flagsObject) => {
 
@@ -123,6 +124,37 @@ const extractFlags = (flagsObject) => {
       },
     })
   }
+
+  const getDataFile = (description, required) => {
+    return flags.string({
+      description: description,
+      required: required,
+      parse: (filePath) => {
+        if (!fs.existsSync(filePath)) {
+          throw new Error(`Could not find data file in the specified path`);
+        }
+        const data = fs.readFileSync(filePath, 'utf8');
+        return JSON.parse(data);
+      }
+    })
+  }
+
+  const getIntegerWithLength = (description, required, length) => {
+    return flags.string({
+      description: description,
+      required: required,
+      parse: (input) => {
+        const intValue = parseInt(input);
+        if (isNaN(intValue)) {
+          throw new Error('Invalid integer value');
+        }
+        if (intValue > length) {
+          throw new Error(`The provided integer value exceeds the maximum allowed value of ${length}`);
+        }
+        return intValue    
+      }
+    })
+  }
   
   module.exports = {
     extractFlags,
@@ -131,5 +163,7 @@ const extractFlags = (flagsObject) => {
     getDate,
     getIpAddress,
     getObjectArray,
-    getStringWithLength
+    getStringWithLength,
+    getIntegerWithLength,
+    getDataFile
   }

@@ -27,9 +27,14 @@ class AccountSSO extends BaseCommand {
 
         try {
             client.setApiKey(process.env.SG_ACCOUNT_PROVISIONING_KEY);
+            client.setDefaultRequest('maxRedirects', 0);
             const [response] = await client.request(request);
-            return response.body
+            return response
         } catch (error) {
+            if (error.response && error.response.status === 303) {
+                const locationHeader = error.response.headers.location;
+                return locationHeader
+            }
             return error
         }  
           

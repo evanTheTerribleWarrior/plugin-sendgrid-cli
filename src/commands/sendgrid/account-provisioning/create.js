@@ -1,25 +1,30 @@
 const { flags } = require('@oclif/command');
 const { BaseCommand } = require('@twilio/cli-core').baseCommands;
 const { TwilioCliError } = require('@twilio/cli-core').services.error;
-const {extractFlags} = require('../../../utils/functions');
+const {extractFlags, getBoolean, getDataFile} = require('../../../utils/functions');
 require('dotenv').config()
 const client = require('@sendgrid/client');
 const API_PATHS = require('../../../utils/paths');
 
-class AccountsList extends BaseCommand {
+class AccountCreate extends BaseCommand {
     async run() {
       await super.run();
-      const result = await this.listAccounts()
+      const result = await this.createAccount()
       this.output(result)
     }
 
-    async listAccounts() {
+    async createAccount() {
         const { headers, ...data } = extractFlags(this.flags);
+        const { is_test, data_file } = data;
+
+        if(is_test) {
+            headers['T-Test-Account'] = true;
+        }
           
         const request = {
             url: `${API_PATHS.ACCOUNT_PROVISIONING}/accounts`,
-            method: 'GET',
-            qs: data,
+            method: 'POST',
+            body: data_file,
             headers: headers
         }
 
@@ -34,11 +39,11 @@ class AccountsList extends BaseCommand {
     }
 }
 
-AccountsList.description = 'Retrieves all accounts under the organization'
-AccountsList.flags = Object.assign(
+AccountCreate.description = 'Creates a new customer account'
+AccountCreate.flags = Object.assign(
 {
-    'offset': flags.string({description: 'The offset that defines where to start counting from', required: false}),
-    'limit': flags.integer({description: 'Results per page', required: false}) 
+    'is-test': getBoolean('If true, it will create a Test Account', false),
+    'data-file': getDataFile('The local JSON file containing the data for the new account', true) 
 }, BaseCommand.flags)
 
-module.exports = AccountsList;
+module.exports = AccountCreate;
