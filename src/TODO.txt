@@ -1,5 +1,6 @@
 TODO after 1st pass:
 ---> Add optional limits to array flag
+---> Text exporting functions, like Export MC Stats
 
 Endpoints to finish:
 Mail Send
@@ -46,6 +47,8 @@ Deliverability:
 ---> IP address management
 
 Why on Stats we don't put all the other sections under /v3/stats/ ?
+
+MC Custom Fields: Why we dont have fetch?
 
 Re-do the Designs with the new flags
 

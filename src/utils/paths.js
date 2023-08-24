@@ -47,7 +47,15 @@ const API_PATHS = {
     DESIGNS: '/v3/designs',
     IP_ADDRESS_MANAGEMENT: '/v3/send_ips',
     SEQ: '/v3/engagementquality',
-    MC_LISTS: '/v3/marketing/lists'
+    MC_LISTS: '/v3/marketing/lists',
+    MC_STATS: '/v3/marketing/stats',
+    MC_CUSTOM_FIELDS: '/v3/marketing/field_definitions',
+    MC_SEGMENTS: '/v3/marketing/segments/2.0',
+    MC_SENDERS: '/v3/marketing/senders',
+    MC_TEST: '/v3/marketing/test/send_email',
+    MC_SINGLE_SEND: '/v3/marketing/singlesends',
+    MC_CONTACTS: '/v3/marketing/contacts',
+    MC_SEGMENTS_V1: '/v3/marketing/segments'
 }
 
 module.exports = API_PATHS

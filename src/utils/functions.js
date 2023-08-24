@@ -113,7 +113,7 @@ const extractFlags = (flagsObject) => {
   }
 
   const getStringWithLength = (description, required, length) => {
-    return flags.build({
+    return flags.string({
       description: description,
       required: required,
       parse: (input) => {
